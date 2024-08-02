@@ -13,7 +13,7 @@ def extract_images_from_excel(excel_file):
     sheet = wb[SHEET_NAME]
     image_loader = SheetImageLoader(sheet)
 
-    image_dir = 'docs/static/images'
+    image_dir = 'static/images'
     if not os.path.exists(image_dir):
         os.makedirs(image_dir)
 
