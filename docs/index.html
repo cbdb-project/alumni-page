@@ -75,6 +75,7 @@
                         let cell = row.insertCell();
                         let value = item[key];
                         if (typeof value === 'string' && value.endsWith(".png")) {
+                            console.log(value)
                             let img = new Image()
                             img.src = value;
                             img.onerror = () => console.error('Image load error for src:', img.src);
