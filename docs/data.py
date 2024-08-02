@@ -8,11 +8,9 @@ from config import DROP_COLUMN, SPREADSHEET_ID, SHEET_NAME
 
 def prepare_data():
     processed_data = []
-    df = download_google_sheet(SPREADSHEET_ID, SHEET_NAME, "copy.xlsx")
+    df = download_google_sheet(SPREADSHEET_ID, SHEET_NAME, "docs/copy.xlsx")
     columns_to_remove = DROP_COLUMN
     df = df.drop(columns=columns_to_remove, errors='ignore')
-    # hardcode here to drop the last column with wrong input area
-    # df = df.iloc[:, :9]
     data = df.to_dict(orient='records')
 
     for record in data:
@@ -33,13 +31,13 @@ def prepare_data():
                 else:
                     record[key] = str(value)
         processed_data.append(record)
-    with open('data.json', 'w') as f:
+    with open('docs/data.json', 'w') as f:
         json.dump(processed_data, f)
 
 
 if __name__ == "__main__":
     # Configure logging
-    # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    # logging.info("Starting data.py script")
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.info("Starting data.py script")
     prepare_data()
-    # logging.info("Updated docs/data.json successfully")
+    logging.info("Updated docs/data.json successfully")
