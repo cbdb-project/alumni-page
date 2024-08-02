@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBDB sub-projects</title>
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>CBDB ADDRESS BOOK</h1>
+    <table id="data-table">
+        <thead>
+            <tr id="table-header">
+                <!-- Headers will be inserted here -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+    <script>
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Create table headers
+                const tableHeader = document.getElementById('table-header');
+                const keys = Object.keys(data[0]);
+                keys.forEach(key => {
+                    let th = document.createElement('th');
+                    if (key.startsWith("Unnamed")) {
+                        th.textContent = "";
+                    } else {
+                        th.textContent = key;
+                    }
+                    tableHeader.appendChild(th);
+                });
+
+                // Create table rows
+                const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+                data.forEach(item => {
+                    let row = tableBody.insertRow();
+                    keys.forEach(key => {
+                        let cell = row.insertCell();
+                        let value = item[key];
+                        if (typeof value === 'string' && value.endsWith(".png")) {
+                            let img = new Image()
+                            img.src = value;
+                            img.onerror = () => console.error('Image load error for src:', img.src);
+                            cell.appendChild(img);
+                        } else {
+                            cell.textContent = value !== null ? value : '';
+                        }
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
