@@ -76,14 +76,14 @@
                         let value = item[key];
                         if (typeof value === 'string' && value.endsWith(".png")) {
                             // console.log(value)
-                            let path = "../" + value;
-                            // if (value.startsWith("docs/")) {
-                            //     value = value.replace("docs/", "")
-                            // }
+                            // let path = "../" + value;
+                            if (value.startsWith("docs/")) {
+                                value = value.replace("docs/", "")
+                            }
                             console.log(path)
                             let img = new Image()
-                            // img.src = value;
-                            img.src = path;
+                            img.src = value;
+                            // img.src = path;
                             img.onerror = () => console.error('Image load error for src:', img.src);
                             cell.appendChild(img);
                         } else {
