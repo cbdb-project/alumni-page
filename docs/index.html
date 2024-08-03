@@ -75,12 +75,12 @@
                         let cell = row.insertCell();
                         let value = item[key];
                         if (typeof value === 'string' && value.endsWith(".png")) {
-                            // console.log(value)
+                            console.log(value)
                             // let path = "../" + value;
                             if (value.startsWith("docs/")) {
                                 value = value.replace("docs/", "")
                             }
-                            console.log(path)
+                            // console.log(path)
                             let img = new Image()
                             img.src = value;
                             // img.src = path;
