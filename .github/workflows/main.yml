@@ -12,7 +12,7 @@ jobs:
         with:
           deno-version: v1.x
       - name: Check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 #      - name: Fetch data
 #        uses: githubocto/flat@v2
 #        with:
@@ -26,9 +26,9 @@ jobs:
 #          git commit -m 'Downloaded new copy'
 #          git push
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'  # pinned: requirements.txt has no wheels for 3.13+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
