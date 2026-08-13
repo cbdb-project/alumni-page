@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Past Subprojects in Harvard</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="static/favicon-64.png">
+<link rel="apple-touch-icon" href="static/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
@@ -76,6 +80,12 @@
   .masthead { background: var(--card); border-bottom: 1px solid var(--rule); }
   .masthead__inner {
     max-width: 1280px; margin: 0 auto; padding: 28px 24px 0;
+  }
+  /* The mark is a dark maroon tile, so it sits on the white masthead rather
+     than on the crimson bar, where the two reds would muddy each other. */
+  .masthead__lockup { display: flex; align-items: center; gap: 18px; }
+  .masthead__logo {
+    flex: 0 0 auto; width: 62px; height: 62px; display: block;
   }
   .masthead h1 {
     margin: 0 0 4px;
@@ -200,6 +210,8 @@
       padding-left: 16px; padding-right: 16px;
     }
     .tabs { gap: 20px; }
+    .masthead__lockup { gap: 12px; }
+    .masthead__logo { width: 44px; height: 44px; }
     /* A nowrap label column squeezes the values badly at this width, so
        stack each label above its value instead. */
     .person__details { grid-template-columns: 1fr; gap: 0; }
@@ -220,8 +232,14 @@
 
 <header class="masthead">
   <div class="masthead__inner">
-    <h1>Past Subprojects in Harvard</h1>
-    <p>Former participants of CBDB subprojects at Harvard University</p>
+    <div class="masthead__lockup">
+      <img class="masthead__logo" src="static/cbdb-logo.png" width="62" height="62"
+           alt="China Biographical Database Project">
+      <div>
+        <h1>Past Subprojects in Harvard</h1>
+        <p>Former participants of CBDB subprojects at Harvard University</p>
+      </div>
+    </div>
     <nav class="tabs" aria-label="Directories">
       <a href="https://cbdb-project.github.io/cbdb-addr-book-script/">Current</a>
       <a href="https://cbdb-project.github.io/alumni-page/" aria-current="page">Past</a>
