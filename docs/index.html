@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Past Subprojects in Harvard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 <style>
-  /* Palette lifted from the CBDB site's Harvard Web Publishing theme
-     (hwp_hyard), so these pages sit visually inside the same family. */
+  /* Palette and type lifted from the CBDB site's Harvard Web Publishing theme
+     (hwp_hyard), so these pages sit visually inside the same family. That site
+     runs the "inter" font group and the "bold" style, which squares off every
+     corner - hence Inter throughout and no border radii. */
   :root {
     --crimson:      #A51C30;   /* --hwp-bg-dark-base */
     --crimson-deep: #8A1728;
@@ -19,9 +24,11 @@
     --warm:         #EBE8E5;   /* --hwp-bg-light-alternative */
     --card:         #FFFFFF;   /* --hwp-bg-light-core */
     --rule:         #DCE2E2;   /* --hwp-button-light-secondary */
-    --serif: Georgia, "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", serif;
-    --sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-             "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    /* Inter carries no CJK, so the Chinese names fall through to the
+       platform's own sans. */
+    --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+            "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+            "Noto Sans SC", Arial, sans-serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -44,13 +51,25 @@
   .global-bar { background: var(--crimson); }
   .global-bar__inner {
     max-width: 1280px; margin: 0 auto; padding: 12px 24px;
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    align-items: baseline; justify-content: space-between;
   }
   .global-bar a {
     color: #fff; text-decoration: none;
-    font-family: var(--serif);
     font-size: 0.95rem; letter-spacing: 0.01em;
   }
   .global-bar a:hover { text-decoration: underline; }
+  .global-bar__home {
+    font-size: 0.82rem !important;
+    font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+    padding-bottom: 1px;
+  }
+  .global-bar__home:hover { border-bottom-color: #fff; text-decoration: none !important; }
+
+  .homelink { color: var(--link); font-weight: 600; }
 
   /* ---- Page masthead ---- */
   .masthead { background: var(--card); border-bottom: 1px solid var(--rule); }
@@ -59,7 +78,6 @@
   }
   .masthead h1 {
     margin: 0 0 4px;
-    font-family: var(--serif);
     font-weight: 600;
     font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.4rem);
     line-height: 1.15;
@@ -95,7 +113,7 @@
     display: flex; align-items: center; gap: 8px;
     background: var(--card);
     border: 1px solid var(--rule);
-    border-radius: 3px;
+    border-radius: 0;
     padding: 8px 12px;
   }
   .search svg { flex: 0 0 auto; fill: var(--ink-faint); }
@@ -115,7 +133,7 @@
     background: var(--card);
     border: 1px solid var(--rule);
     border-top: 3px solid var(--navy);
-    border-radius: 3px;
+    border-radius: 0;
     padding: 18px;
     display: flex; flex-direction: column;
   }
@@ -124,18 +142,18 @@
     flex: 0 0 auto;
     width: 82px; height: 82px;
     object-fit: cover; object-position: center top;
-    border-radius: 3px;
+    border-radius: 0;
     background: var(--warm);
     border: 1px solid var(--rule);
   }
   .person__photo--empty {
     display: flex; align-items: center; justify-content: center;
-    color: var(--ink-faint); font-family: var(--serif); font-size: 1.5rem;
+    color: var(--ink-faint); font-weight: 600; font-size: 1.4rem;
   }
   .person__id { min-width: 0; }
   .person__name {
     margin: 0;
-    font-family: var(--serif); font-weight: 600;
+    font-weight: 600;
     font-size: 1.12rem; line-height: 1.25; color: var(--ink);
   }
   .person__cn {
@@ -145,7 +163,7 @@
     display: inline-block; margin-top: 8px;
     padding: 2px 9px;
     background: #FBEFF1; color: var(--crimson-deep);
-    border: 1px solid #F0D6DA; border-radius: 999px;
+    border: 1px solid #F0D6DA; border-radius: 0;
     font-size: 0.74rem; font-weight: 600;
     letter-spacing: 0.04em; text-transform: uppercase;
   }
@@ -164,7 +182,7 @@
 
   .empty {
     padding: 56px 0; text-align: center; color: var(--ink-faint);
-    font-family: var(--serif); font-size: 1.05rem;
+    font-size: 1.05rem;
   }
 
   footer {
@@ -195,13 +213,14 @@
 <div class="global-bar">
   <div class="global-bar__inner">
     <a href="https://cbdb.hsites.harvard.edu/">China Biographical Database Project (CBDB)</a>
+    <a class="global-bar__home" href="https://cbdb.hsites.harvard.edu/">CBDB main site &rarr;</a>
   </div>
 </div>
 
 <header class="masthead">
   <div class="masthead__inner">
     <h1>Past Subprojects in Harvard</h1>
-    <p>Alumni of the CBDB subprojects at Harvard University.</p>
+    <p>Former participants of CBDB subprojects at Harvard University</p>
     <nav class="tabs" aria-label="Directories">
       <a href="https://cbdb-project.github.io/cbdb-addr-book-script/">Current</a>
       <a href="https://cbdb-project.github.io/alumni-page/" aria-current="page">Past</a>
@@ -223,7 +242,13 @@
 </main>
 
 <footer>
-  <div>Generated automatically from the CBDB address book. Edits to the spreadsheet appear here within a few minutes.</div>
+  <div>
+    Generated automatically from the CBDB address book. Edits to the spreadsheet
+    appear here within a few minutes.
+    <br>
+    Part of the <a class="homelink" href="https://cbdb.hsites.harvard.edu/">China
+    Biographical Database Project (CBDB)</a> at Harvard University.
+  </div>
 </footer>
 
 <script>
