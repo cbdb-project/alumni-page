@@ -1,98 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Past Subprojects in Harvard</title>
-    <style>
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        img {
-            max-width: 100px;
-            height: auto;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Past Subprojects in Harvard</title>
+<style>
+  /* Palette lifted from the CBDB site's Harvard Web Publishing theme
+     (hwp_hyard), so these pages sit visually inside the same family. */
+  :root {
+    --crimson:      #A51C30;   /* --hwp-bg-dark-base */
+    --crimson-deep: #8A1728;
+    --navy:         #2B416E;   /* --hwp-bg-dark-alternative */
+    --link:         #2A659C;   /* --hwp-font-dark-link */
+    --ink:          #1E1E1E;   /* --hwp-font-dark-text */
+    --ink-soft:     #52504F;
+    --ink-faint:    #7A7A7A;
+    --page:         #F3F3F4;   /* --hwp-bg-light-base */
+    --warm:         #EBE8E5;   /* --hwp-bg-light-alternative */
+    --card:         #FFFFFF;   /* --hwp-bg-light-core */
+    --rule:         #DCE2E2;   /* --hwp-button-light-secondary */
+    --serif: Georgia, "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", serif;
+    --sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+             "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  }
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  a { color: var(--link); }
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--crimson);
+    outline-offset: 3px;
+  }
 
-    </style>
+  /* ---- Harvard-style crimson global bar ---- */
+  .global-bar { background: var(--crimson); }
+  .global-bar__inner {
+    max-width: 1280px; margin: 0 auto; padding: 12px 24px;
+  }
+  .global-bar a {
+    color: #fff; text-decoration: none;
+    font-family: var(--serif);
+    font-size: 0.95rem; letter-spacing: 0.01em;
+  }
+  .global-bar a:hover { text-decoration: underline; }
+
+  /* ---- Page masthead ---- */
+  .masthead { background: var(--card); border-bottom: 1px solid var(--rule); }
+  .masthead__inner {
+    max-width: 1280px; margin: 0 auto; padding: 28px 24px 0;
+  }
+  .masthead h1 {
+    margin: 0 0 4px;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.4rem);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .masthead p {
+    margin: 0; color: var(--ink-faint); font-size: 0.92rem;
+  }
+  .tabs { display: flex; gap: 28px; margin-top: 20px; }
+  .tabs a {
+    padding: 10px 2px 12px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .tabs a:hover { color: var(--crimson); }
+  .tabs a[aria-current="page"] {
+    color: var(--crimson);
+    box-shadow: inset 0 -3px 0 var(--crimson);
+  }
+
+  /* ---- Toolbar ---- */
+  .toolbar {
+    max-width: 1280px; margin: 0 auto;
+    padding: 22px 24px 6px;
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  }
+  .search {
+    flex: 1 1 260px; max-width: 380px;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 8px 12px;
+  }
+  .search svg { flex: 0 0 auto; fill: var(--ink-faint); }
+  .search input {
+    border: 0; outline: 0; width: 100%;
+    font: inherit; font-size: 0.94rem; color: var(--ink); background: transparent;
+  }
+  .count { color: var(--ink-faint); font-size: 0.88rem; }
+
+  /* ---- Roster ---- */
+  main { max-width: 1280px; margin: 0 auto; padding: 14px 24px 64px; }
+  .roster {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  }
+  .person {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--navy);
+    border-radius: 3px;
+    padding: 18px;
+    display: flex; flex-direction: column;
+  }
+  .person__head { display: flex; gap: 14px; align-items: flex-start; }
+  .person__photo {
+    flex: 0 0 auto;
+    width: 82px; height: 82px;
+    object-fit: cover; object-position: center top;
+    border-radius: 3px;
+    background: var(--warm);
+    border: 1px solid var(--rule);
+  }
+  .person__photo--empty {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-faint); font-family: var(--serif); font-size: 1.5rem;
+  }
+  .person__id { min-width: 0; }
+  .person__name {
+    margin: 0;
+    font-family: var(--serif); font-weight: 600;
+    font-size: 1.12rem; line-height: 1.25; color: var(--ink);
+  }
+  .person__cn {
+    margin: 2px 0 0; color: var(--ink-soft); font-size: 0.98rem;
+  }
+  .chip {
+    display: inline-block; margin-top: 8px;
+    padding: 2px 9px;
+    background: #FBEFF1; color: var(--crimson-deep);
+    border: 1px solid #F0D6DA; border-radius: 999px;
+    font-size: 0.74rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .person__details {
+    margin: 16px 0 0; padding: 14px 0 0;
+    border-top: 1px solid var(--warm);
+    display: grid; grid-template-columns: auto 1fr; gap: 7px 14px;
+    font-size: 0.9rem;
+  }
+  .person__details dt {
+    color: var(--ink-faint); font-size: 0.76rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding-top: 2px; white-space: nowrap;
+  }
+  .person__details dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+
+  .empty {
+    padding: 56px 0; text-align: center; color: var(--ink-faint);
+    font-family: var(--serif); font-size: 1.05rem;
+  }
+
+  footer {
+    border-top: 1px solid var(--rule); background: var(--card);
+  }
+  footer div {
+    max-width: 1280px; margin: 0 auto; padding: 22px 24px;
+    color: var(--ink-faint); font-size: 0.84rem;
+  }
+
+  @media (max-width: 520px) {
+    .roster { grid-template-columns: 1fr; }
+    .masthead__inner, .toolbar, main, footer div, .global-bar__inner {
+      padding-left: 16px; padding-right: 16px;
+    }
+    .tabs { gap: 20px; }
+    /* A nowrap label column squeezes the values badly at this width, so
+       stack each label above its value instead. */
+    .person__details { grid-template-columns: 1fr; gap: 0; }
+    .person__details dt { white-space: normal; margin-top: 12px; }
+    .person__details dt:first-of-type { margin-top: 0; }
+    .person__details dd { margin-top: 1px; }
+  }
+</style>
 </head>
 <body>
-    <h1>Past Subprojects in Harvard</h1>
-    <table id="data-table">
-        <thead>
-            <tr id="table-header">
-                <!-- Headers will be inserted here -->
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Data will be inserted here -->
-        </tbody>
-    </table>
-    <script>
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                // Create table headers
-                const tableHeader = document.getElementById('table-header');
-                const keys = Object.keys(data[0]);
-                keys.forEach(key => {
-                    let th = document.createElement('th');
-                    if (key.startsWith("Unnamed")) {
-                        th.textContent = "";
-                    } else {
-                        th.textContent = key;
-                    }
-                    tableHeader.appendChild(th);
-                });
 
-                // Create table rows
-                const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
-                data.forEach(item => {
-                    let row = tableBody.insertRow();
-                    keys.forEach(key => {
-                        let cell = row.insertCell();
-                        let value = item[key];
-                        if (typeof value === 'string' && value.endsWith(".png")) {
-                            console.log(value)
-                            // let path = "../" + value;
-                            if (value.startsWith("docs/")) {
-                                value = value.replace("docs/", "")
-                            }
-                            // console.log(path)
-                            let img = new Image()
-                            img.src = value;
-                            // img.src = path;
-                            img.onerror = () => console.error('Image load error for src:', img.src);
-                            cell.appendChild(img);
-                        } else {
-                            cell.textContent = value !== null ? value : '';
-                        }
-                    });
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    </script>
+<div class="global-bar">
+  <div class="global-bar__inner">
+    <a href="https://cbdb.hsites.harvard.edu/">China Biographical Database Project (CBDB)</a>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <h1>Past Subprojects in Harvard</h1>
+    <p>Alumni of the CBDB subprojects at Harvard University.</p>
+    <nav class="tabs" aria-label="Directories">
+      <a href="https://cbdb-project.github.io/cbdb-addr-book-script/">Current</a>
+      <a href="https://cbdb-project.github.io/alumni-page/" aria-current="page">Past</a>
+    </nav>
+  </div>
+</header>
+
+<div class="toolbar">
+  <label class="search">
+    <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7 14 5 12 5 9.5S7 5 9.5 5 14 7 14 9.5 12 14 9.5 14"/></svg>
+    <input id="q" type="search" placeholder="Search name, institution, specialty" aria-label="Search the directory" autocomplete="off">
+  </label>
+  <span class="count" id="count"></span>
+</div>
+
+<main>
+  <div class="roster" id="roster"></div>
+  <p class="empty" id="empty" hidden>No one matches that search.</p>
+</main>
+
+<footer>
+  <div>Generated automatically from the CBDB address book. Edits to the spreadsheet appear here within a few minutes.</div>
+</footer>
+
+<script>
+  var NAME_KEY  = 'LAST, First Name EN';
+  var CN_KEY    = 'Chinese Name';
+  var PHOTO_KEY = 'Photo';
+  var CHIP_KEY  = 'Affiliation';
+  var HIDDEN    = [NAME_KEY, CN_KEY, PHOTO_KEY, CHIP_KEY];
+
+  var roster  = document.getElementById('roster');
+  var countEl = document.getElementById('count');
+  var emptyEl = document.getElementById('empty');
+  var people  = [];
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function initial(name) {
+    var parts = String(name || '?').replace(/,/g, ' ').trim().split(/\s+/);
+    return ((parts[0] || '')[0] || '?').toUpperCase();
+  }
+
+  function photoNode(rec) {
+    var src = rec[PHOTO_KEY];
+    if (!src) {
+      var ph = el('div', 'person__photo person__photo--empty', initial(rec[NAME_KEY]));
+      ph.setAttribute('aria-hidden', 'true');
+      return ph;
+    }
+    // Pages publishes from /docs, so a stored "docs/" prefix must be dropped.
+    if (src.indexOf('docs/') === 0) src = src.slice(5);
+    var img = el('img', 'person__photo');
+    img.src = src;
+    img.alt = rec[NAME_KEY] ? 'Photograph of ' + rec[NAME_KEY] : '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.onerror = function () {
+      img.replaceWith(el('div', 'person__photo person__photo--empty', initial(rec[NAME_KEY])));
+    };
+    return img;
+  }
+
+  function card(rec, keys) {
+    var c = el('article', 'person');
+
+    var head = el('div', 'person__head');
+    head.appendChild(photoNode(rec));
+
+    var id = el('div', 'person__id');
+    id.appendChild(el('h2', 'person__name', rec[NAME_KEY] || '—'));
+    if (rec[CN_KEY]) id.appendChild(el('p', 'person__cn', rec[CN_KEY]));
+    if (rec[CHIP_KEY]) id.appendChild(el('span', 'chip', rec[CHIP_KEY]));
+    head.appendChild(id);
+    c.appendChild(head);
+
+    var dl = el('dl', 'person__details');
+    var shown = 0;
+    keys.forEach(function (k) {
+      if (HIDDEN.indexOf(k) !== -1) return;
+      var v = rec[k];
+      if (v == null || String(v).trim() === '') return;
+      dl.appendChild(el('dt', null, k));
+      var dd = el('dd');
+      if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(v).trim())) {
+        var a = el('a', null, v);
+        a.href = 'mailto:' + String(v).trim();
+        dd.appendChild(a);
+      } else {
+        dd.textContent = v;
+      }
+      dl.appendChild(dd);
+      shown++;
+    });
+    if (shown) c.appendChild(dl);
+
+    return c;
+  }
+
+  function render(list, keys) {
+    roster.textContent = '';
+    list.forEach(function (rec) { roster.appendChild(card(rec, keys)); });
+    countEl.textContent = list.length + (list.length === 1 ? ' person' : ' people');
+    emptyEl.hidden = list.length !== 0;
+  }
+
+  fetch('data.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      people = data;
+      var keys = Object.keys(data[0] || {}).filter(function (k) { return !/^Unnamed/.test(k); });
+      var haystack = data.map(function (rec) {
+        return keys.map(function (k) { return k === PHOTO_KEY ? '' : rec[k]; }).join(' ').toLowerCase();
+      });
+
+      render(people, keys);
+
+      document.getElementById('q').addEventListener('input', function (e) {
+        var q = e.target.value.trim().toLowerCase();
+        if (!q) { render(people, keys); return; }
+        render(people.filter(function (_, i) { return haystack[i].indexOf(q) !== -1; }), keys);
+      });
+    })
+    .catch(function (err) {
+      console.error('Error fetching data:', err);
+      emptyEl.textContent = 'The directory could not be loaded.';
+      emptyEl.hidden = false;
+    });
+</script>
 </body>
 </html>
