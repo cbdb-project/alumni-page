@@ -2,6 +2,7 @@ import openpyxl
 from openpyxl_image_loader import SheetImageLoader
 import requests
 import os.path
+import shutil
 
 import pandas as pd
 
@@ -14,8 +15,11 @@ def extract_images_from_excel(excel_file):
     image_loader = SheetImageLoader(sheet)
 
     image_dir = 'docs/static/images'
-    if not os.path.exists(image_dir):
-        os.makedirs(image_dir)
+    # Regenerate from scratch each run: a photo removed from the spreadsheet,
+    # or a row that shifted, must not leave a stale image behind.
+    if os.path.exists(image_dir):
+        shutil.rmtree(image_dir)
+    os.makedirs(image_dir)
 
     image_positions = {}
 
