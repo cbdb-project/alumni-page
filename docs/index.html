@@ -54,11 +54,12 @@
     display: flex; flex-wrap: wrap; gap: 8px 20px;
     align-items: baseline; justify-content: space-between;
   }
-  .global-bar a {
-    color: #fff; text-decoration: none;
-    font-size: 0.95rem; letter-spacing: 0.01em;
+  /* The wordmark is plain text: the adjacent link already goes to the main
+     site, so making the name clickable too was just a duplicate target. */
+  .global-bar__brand {
+    color: #fff; font-size: 0.95rem; letter-spacing: 0.01em;
   }
-  .global-bar a:hover { text-decoration: underline; }
+  .global-bar a { color: #fff; text-decoration: none; }
   .global-bar__home {
     font-size: 0.82rem !important;
     font-weight: 600;
@@ -212,7 +213,7 @@
 
 <div class="global-bar">
   <div class="global-bar__inner">
-    <a href="https://cbdb.hsites.harvard.edu/">China Biographical Database Project (CBDB)</a>
+    <span class="global-bar__brand">China Biographical Database Project (CBDB)</span>
     <a class="global-bar__home" href="https://cbdb.hsites.harvard.edu/">CBDB main site &rarr;</a>
   </div>
 </div>
